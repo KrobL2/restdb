@@ -161,6 +161,7 @@ func ListLogged() []User {
 		db.Close()
 		return []User{}
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users WHERE active = 1\n")
@@ -216,6 +217,7 @@ func FindUserID(ID int) User {
 			log.Println(err)
 			return User{}
 		}
+
 		u = User{c1, c2, c3, c4, c5, c6}
 		log.Println("Found user:", u)
 	}
@@ -256,6 +258,7 @@ func FindUserUsername(username string) User {
 		u = User{c1, c2, c3, c4, c5, c6}
 		log.Println("Found user:", u)
 	}
+
 	return u
 }
 
@@ -267,6 +270,7 @@ func ReturnLoggedUsers() []User {
 		db.Close()
 		return []User{}
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users WHERE Active = 1 \n")
@@ -305,6 +309,7 @@ func IsUserAdmin(u User) bool {
 		db.Close()
 		return false
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users WHERE Username = $1 \n", u.Username)
@@ -333,6 +338,7 @@ func IsUserAdmin(u User) bool {
 	if u.Username == temp.Username && u.Password == temp.Password && temp.Admin == 1 {
 		return true
 	}
+
 	return false
 }
 
@@ -343,6 +349,7 @@ func IsUserValid(u User) bool {
 		db.Close()
 		return false
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users WHERE Username = $1 \n", u.Username)
@@ -371,6 +378,7 @@ func IsUserValid(u User) bool {
 	if u.Username == temp.Username && u.Password == temp.Password {
 		return true
 	}
+
 	return false
 }
 
@@ -384,6 +392,7 @@ func UpdateUser(u User) bool {
 		db.Close()
 		return false
 	}
+
 	defer db.Close()
 
 	stmt, err := db.Prepare("UPDATE users SET Username=$1, Password=$2, Admin=$3, Active=$4 WHERE ID = $5")
@@ -403,6 +412,7 @@ func UpdateUser(u User) bool {
 		log.Println("RowsAffected() failed:", err)
 		return false
 	}
+
 	log.Println("Affected:", affect)
 	return true
 }
