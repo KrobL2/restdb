@@ -68,6 +68,7 @@ func DeleteUser(ID int) bool {
 		db.Close()
 		return false
 	}
+
 	defer db.Close()
 
 	// Check is the user ID exists
@@ -99,6 +100,7 @@ func InsertUser(u User) bool {
 		fmt.Println("Cannot connect to PostgreSQL!")
 		return false
 	}
+
 	defer db.Close()
 
 	if IsUserValid(u) {
@@ -124,6 +126,7 @@ func ListAllUsers() []User {
 		db.Close()
 		return []User{}
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users \n")
@@ -190,6 +193,7 @@ func FindUserID(ID int) User {
 		db.Close()
 		return User{}
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users where ID = $1\n", ID)
@@ -197,6 +201,7 @@ func FindUserID(ID int) User {
 		log.Println("Query:", err)
 		return User{}
 	}
+
 	defer rows.Close()
 
 	u := User{}
@@ -225,6 +230,7 @@ func FindUserUsername(username string) User {
 		db.Close()
 		return User{}
 	}
+
 	defer db.Close()
 
 	rows, err := db.Query("SELECT * FROM users where Username = $1 \n", username)
@@ -232,6 +238,7 @@ func FindUserUsername(username string) User {
 		log.Println("FindUserUsername Query:", err)
 		return User{}
 	}
+
 	defer rows.Close()
 
 	u := User{}
